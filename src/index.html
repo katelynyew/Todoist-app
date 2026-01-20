@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List App</title>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <p>Katelyn</p>
+                <button id="close-btn"><img src="" alt="close"></button>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="inbox">
+                    <button id="add-task-btn"><img src="" alt="icon">Add Task</button>
+                    <button id="inbox-btn"><img src="" alt="icon">Inbox</button>
+                    <button id="completed-btn"><img src="" alt="icon">Completed</button>
+                </div>
+                <div class="projects">
+                    <button id="my-projects-btn">My Projects</button>
+                    <div class="items">
+                        <button># Getting Started</button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="main-content">
+            
+        </div>
+    </div>
+
+    <!-- add task modal  -->
+    <div id="task-modal" class="modal">
+        <div class="add-task">
+            <input id="task-title" class="title" type="text" placeholder="Go to the library Monday afternoon" required>
+            <input id="task-description" class="description" type="text" placeholder="Go to the library Monday afternoon">
+            <div class="edit-btns">
+                <button class="date">Date</button>
+                <button class="priority">Priority</button>
+            </div>
+            <div class="submit-btns">
+                <div class="dropdown">
+                    <button id="current-project-btn">Inbox ▼</button>
+                    <div id="dropdown-list" class="dropdown-content hidden">
+                        <button data-value="inbox">Inbox</button>
+                        <div class="dropdown-projects">
+                            <!-- <button data-value="project1"># Getting Started</button> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="close-btns">
+                    <button class="cancel-btn">Cancel</button>
+                    <button class="submit-btn" date-type="task">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- add project form modal -->
+    <div id="project-modal" class="modal">
+        <div class="add-project">
+            <header class="add-project-header">
+                <h3>Add project</h3>
+                <button class="close-modal">
+                    <img src="" alt="close">
+                </button>
+            </header>
+            <div class="details">
+                <label for="name" class="project-name">Name</label>
+                <input id="project-title" type="text" required>
+            </div>
+            <div class="close-btns">
+                    <button class="cancel-btn">Cancel</button>
+                    <button class="submit-btn" data-type="project">Submit</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
