@@ -8,6 +8,7 @@ export function renderMainContent() {
 
     const mainHeader = document.createElement("div");
     mainHeader.classList.add("main-header");
+   
     const title = document.createElement("h2");
     mainHeader.append(title);
     mainContent.append(mainHeader);
@@ -35,11 +36,13 @@ export function renderMainContent() {
             p.textContent = "Inbox is your go-toInbox is your go-to spot for quick task entry. Clear your mind now, organize when you’re ready.";
 
             const add = document.createElement("button");
+            add.classList.add("add-task-main")
+            add.dataset.action = "add-task";
+            add.textContent = "Add Task";
             const addIcon = document.createElement("img");
             addIcon.setAttribute("src", "");
             addIcon.setAttribute("alt", "icon");
             add.append(addIcon);
-            add.textContent = "Add Task";
 
             bodyContainer.append(img, h3, p, add);
         }
@@ -52,19 +55,32 @@ export function renderMainContent() {
                 checkBox.dataset.id = toDo.id;
                 checkBox.setAttribute("type", "checkbox");
                 checkBox.checked = toDo.completed;
+
                 const task = document.createElement("button");
                 task.dataset.id = toDo.id;
-                task.textContent = toDo.title;
-                taskContainer.append(checkBox, task);
+    
+                const taskDetails = document.createElement("div");
+                taskDetails.classList.add("task-details");
+                const title = document.createElement("p");
+                title.textContent = toDo.title;
+                const description = document.createElement("p");
+                description.textContent = toDo.description;
+                const date = document.createElement("p");
+                date.textContent = toDo.dueDate;
+                taskDetails.append(title, description, date);
 
+                task.append(taskDetails);
+                taskContainer.append(checkBox, task);
                 bodyContainer.append(taskContainer);
             }
             const add = document.createElement("button");
+            add.classList.add("add-task-main")
+            add.dataset.action = "add-task";
+            add.textContent = "Add Task";
             const addIcon = document.createElement("img");
             addIcon.setAttribute("src", "");
             addIcon.setAttribute("alt", "icon");
             add.append(addIcon);
-            add.textContent = "Add Task";
 
             bodyContainer.append(add);
         }
@@ -73,7 +89,7 @@ export function renderMainContent() {
 
 
      // My projects page
-    if (view === "MY-PROJECTS") {
+    if (view === "MYPROJECTS") {
         const bodyContainer = document.createElement("div");
         bodyContainer.classList.add("projects-container");
         mainContent.append(bodyContainer);
@@ -81,11 +97,14 @@ export function renderMainContent() {
         title.textContent = "My Project";
 
         const add = document.createElement("button");
+        add.classList.add("add-project-main")
+        add.dataset.action = "add-project";
+        add.textContent = "Add Project";
         const addIcon = document.createElement("img");
         addIcon.setAttribute("src", "");
         addIcon.setAttribute("alt", "icon");
         add.append(addIcon);
-        add.textContent = "Add Project";
+        
         bodyContainer.append(add);
 
         const h3 = document.createElement("h3");
@@ -104,6 +123,7 @@ export function renderMainContent() {
             item.textContent = project.title;
             projectsContainer.append(item);
         }
+
         bodyContainer.append(h3, projectsContainer);
     }
       // single project page
@@ -114,7 +134,9 @@ export function renderMainContent() {
 
         title.textContent = `${activeProject.title}`;
 
-        for (let toDo of activeProject.toDos) {
+        for (let toDo of activeProject.toDos) 
+            {
+           
             const taskContainer = document.createElement("div");
             taskContainer.classList.add("task-container");
 
@@ -131,12 +153,14 @@ export function renderMainContent() {
         }
 
         const add = document.createElement("button");
+        add.classList.add("add-task-main")
+        add.dataset.action = "add-task";
+        add.textContent = "Add Task";
         const addIcon = document.createElement("img");
         addIcon.setAttribute("src", "");
         addIcon.setAttribute("alt", "icon");
         add.append(addIcon);
-        add.textContent = "Add Task";
-        
+
         bodyContainer.append(add);
     }
 
@@ -170,5 +194,7 @@ export function renderMainContent() {
         dateContainer.append(completedItems);
         bodyContainer.append(date);
     }
+
+
     return mainContent;
 }
