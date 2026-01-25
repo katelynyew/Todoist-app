@@ -203,25 +203,25 @@ export function renderMainContent() {
         bodyContainer.classList.add("completed-container");
         mainContent.append(bodyContainer);
         
-        title.textContent = activeProject.title === "Inbox" ? "Activity: Inbox" : "Activity: All projects";
+        title.textContent = "Activity";
         
         const dateContainer = document.createElement("div");
-        const date = document.createElement("h3");
-        date.textContent = "placeholder, needs to implement date later"
-        dateContainer.append(date);
 
-        const completedItems = document.createElement("div");
+        const completedItems = document.createElement("ul");
         for (let project of projects) {
             for (let toDo of project.toDos) {
                 if (toDo.completed === true) {
-                    const p = document.createElement("p");
-                    p.textContent = `You completed ${toDo.title}`;
+                    const p = document.createElement("li");
+                    p.textContent = `You completed `;
+                    const strong = document.createElement("strong");
+                    strong.textContent = `${toDo.title}`;
+                    p.append(strong);
                     completedItems.append(p);
                 }
             }
         }
         dateContainer.append(completedItems);
-        bodyContainer.append(date);
+        bodyContainer.append(dateContainer);
     }
 
 

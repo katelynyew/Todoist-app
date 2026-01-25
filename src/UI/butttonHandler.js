@@ -2,7 +2,8 @@
 import { toggleTodoComplete, removeTodoFromProject, addProject, addToDoToProject, setView, getActiveProject, getProjects, setActiveProject } from "../state.js";import { toDo } from "../todo.js";
 import { renderMainContent } from "./mainContent.js";
 import { renderSidebar } from "./sidebar.js";
-import checked from '../../assets/sound/tuturu.mp3'
+import closeImage from '../../assets/images/close.svg'
+import checked from '../../assets/sound/exp.mp3'
 import pop from '../../assets/sound/pop.mp3'
 // ------ side bar section buttons -------
 // 1. siderbar header click to hide sidebar
@@ -101,8 +102,7 @@ function handleMainContentButtons(event) {
 
      // completed checkbox toggle
     const activeProject = getActiveProject();
-    const toDoId = clickedCheckBox.dataset.id;
-    const toDo = activeProject.toDos.find(toDo => toDo.id === toDoId);
+   
     if (clickedCheckBox && clickedCheckBox.dataset.id) {
         const audio = new Audio(checked);
         audio.play();
@@ -163,6 +163,9 @@ function openTaskModal() {
 }
 function openProjectModal() {
     const modal = document.querySelector("#project-modal");
+    const closeBtn = document.querySelector(".close-modal");
+    const closeImg = closeBtn.querySelector("img");
+    closeImg.setAttribute("src", closeImage);
     modal.style.display = "block";
     return;
 }
@@ -253,6 +256,7 @@ const projectModal = document.querySelector("#project-modal");
 projectModal.addEventListener("click", handleProjectModalButtons);
 
 function handleProjectModalButtons(event) {
+
     const clickedButton = event.target.closest("button");
     if (!clickedButton) {
         return; 
