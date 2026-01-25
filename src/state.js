@@ -1,22 +1,48 @@
 import { project } from './project.js'
+import { saveState, loadState } from './storage.js';
 
 
 let projects = [];
 let activeProjectId;
-
-const item = project("Getting Started");
-projects.push(item);
-activeProjectId = item.id;
-
-const inbox = project("Inbox");
-projects.push(inbox);
-activeProjectId = inbox.id;
-
-
 let currentView = "INBOX";
+
+const savedData = loadState();
+
+if (savedData) {
+     console.log("Loading saved data...");
+    console.log("Saved projects:", savedData.projects);
+    console.log("Saved activeProjectId:", savedData.activeProjectId);
+    projects = savedData.projects;
+    activeProjectId = savedData.activeProjectId;
+    currentView = savedData.currentView;
+
+    // Check if active project exists
+    const active = projects.find(item => item.id === activeProjectId);
+    console.log("Active project found:", active);
+    
+    if (!active) {
+        console.log("Active project not found! Resetting to first project.");
+        activeProjectId = projects[0]?.id;
+    }
+
+}
+else {
+    const inbox = project("Inbox");
+    projects.push(inbox);
+    activeProjectId = inbox.id;
+
+    const item = project("Getting Started");
+    projects.push(item);
+    activeProjectId = item.id;
+}
+function persistState() {
+    saveState(projects, activeProjectId, currentView);
+}
 
 export function setView(view) {
     currentView = view;
+
+    persistState();
 }
 
 export function getView() {
@@ -27,6 +53,8 @@ export function addProject(title) {
     const myProject = project(title);
     activeProjectId = myProject.id;
     projects.push(myProject);
+
+    persistState();
 }
 export function addToDoToProject(projectId, toDoObject) {
     for (let item of projects) {
@@ -34,6 +62,7 @@ export function addToDoToProject(projectId, toDoObject) {
             item.toDos.push(toDoObject);
         }
     }
+    persistState();
 }
 
 export function removeTodoFromProject(projectId, toDoId) {
@@ -43,6 +72,7 @@ export function removeTodoFromProject(projectId, toDoId) {
             break;
         }  
     }
+    persistState();
 }
 
 export function toggleTodoComplete(projectId, toDoId) {
@@ -55,10 +85,12 @@ export function toggleTodoComplete(projectId, toDoId) {
             }
         }
     }
+    persistState();
 }
 
 export function setActiveProject(projectId) {
     activeProjectId = projectId;
+    persistState();
 }
 
 export function getProjects() {

@@ -1,9 +1,9 @@
-import { removeTodoFromProject, addProject, addToDoToProject, setView, getActiveProject, getProjects, setActiveProject } from "../state.js";import { toDo } from "../todo.js";
-;
+
+import { toggleTodoComplete, removeTodoFromProject, addProject, addToDoToProject, setView, getActiveProject, getProjects, setActiveProject } from "../state.js";import { toDo } from "../todo.js";
 import { renderMainContent } from "./mainContent.js";
 import { renderSidebar } from "./sidebar.js";
-
-
+import checked from '../../assets/sound/tuturu.mp3'
+import pop from '../../assets/sound/pop.mp3'
 // ------ side bar section buttons -------
 // 1. siderbar header click to hide sidebar
 // 2. sidebar nav-inbox - add-task: add task button to pop up modal for adding todo task 
@@ -29,8 +29,6 @@ function handleCloseButton(event) {
 }
 const sidebarHeaderContainer = document.querySelector(".sidebar-header");
 sidebarHeaderContainer.addEventListener("click", handleCloseButton);
-
-
 
 
 // -----2. sidebar nav-inbox - 3 buttons; add task, inbox, completed to load corresponding main content page
@@ -70,7 +68,6 @@ projectsContainer.addEventListener("click", handleSidebarProjectButtons);
 
 function handleSidebarProjectButtons(event) {
     let clickedButton = event.target;
-    console.log("clicked: ", event.target)
     if (!clickedButton) {
         return;
     }
@@ -98,8 +95,22 @@ const mainContent = document.querySelector(".main-content");
 mainContent.addEventListener("click", handleMainContentButtons);
 
 function handleMainContentButtons(event) {
+   
     const clickedButton = event.target.closest("button");
-    const clickedCheckBox = event.target.closest("checkbox");
+    const clickedCheckBox = event.target.closest('input[type="checkbox"]');
+
+     // completed checkbox toggle
+    const activeProject = getActiveProject();
+    const toDoId = clickedCheckBox.dataset.id;
+    const toDo = activeProject.toDos.find(toDo => toDo.id === toDoId);
+    if (clickedCheckBox && clickedCheckBox.dataset.id) {
+        const audio = new Audio(checked);
+        audio.play();
+        
+        toggleTodoComplete(activeProject.id , clickedCheckBox.dataset.id);
+        renderMainContent();
+        return;
+    }
 
     if (!clickedButton) {
         return;
@@ -132,6 +143,7 @@ function handleMainContentButtons(event) {
         renderMainContent();
         return;
     }
+   
     
 }
 function openTaskModal() {
@@ -156,6 +168,8 @@ function openProjectModal() {
 }
 function openToDoModal(toDo) {
     const toDoModal = document.querySelector("#todo-details-modal");
+    toDoModal.dataset.currentToDoId = toDo.id;
+
     const titleDescription = document.querySelector(".title-description");
     titleDescription.innerHTML = "";
 
@@ -226,6 +240,8 @@ function handleTaskModalButtons(event) {
         const selectedProjectId = currentProjectBtn.dataset.selectedProjectId || getActiveProject().id
         addToDoToProject(selectedProjectId, toDo(title, description, date, notes));
         renderMainContent();
+        const audio = new Audio(pop);
+        audio.play();
         taskModal.style.display = "none";
         clearTaskModalInputs();
         return;
@@ -282,6 +298,14 @@ function handleToDoModalButtons(event) {
         toDoModal.style.display = "none";
         return;
     }
+    if (clickedButton.classList.contains("remove-btn")) {
+        const toDoId = toDoModal.dataset.currentToDoId;
+        const activeProject = getActiveProject()
+        removeTodoFromProject(activeProject.id, toDoId);
+        renderMainContent();
+        toDoModal.style.display = "none";
+        return;
+    }
 
 }
 function clearTaskModalInputs() {
@@ -299,3 +323,4 @@ function clearProjectModalInputs() {
     document.querySelector("#task-notes").value = "";
     return;
 }
+

@@ -1,6 +1,7 @@
-import { getView, getActiveProject, setActiveProject, getProjects } from "../state";
+import { getView, getActiveProject, getProjects } from "../state";
 import emptyBox from '../../assets/images/empty-inbox.png'
-
+import addTaskImage from '../../assets/images/add-task2.svg'
+import hash from '../../assets/images/hash.svg'
 
 export function renderMainContent() {
     const mainContent = document.querySelector(".main-content");
@@ -33,16 +34,19 @@ export function renderMainContent() {
             h3.textContent = "Capture now, plan later";
             
             const p = document.createElement("p");
-            p.textContent = "Inbox is your go-toInbox is your go-to spot for quick task entry. Clear your mind now, organize when you’re ready.";
+            p.textContent = "Inbox is your go-to spot for quick task entry. Clear your mind now, organize when you’re ready.";
+            p.style = "margin: 0; font-size: 0.9rem; padding-bottom: 15px; width: 200px; text-align: center;"
 
             const add = document.createElement("button");
             add.classList.add("add-task-main")
             add.dataset.action = "add-task";
-            add.textContent = "Add Task";
+            add.style = "width: 100px; background-color: red; color: white; gap: 5px;";
             const addIcon = document.createElement("img");
-            addIcon.setAttribute("src", "");
+            addIcon.setAttribute("src", addTaskImage);
             addIcon.setAttribute("alt", "icon");
-            add.append(addIcon);
+            const span = document.createElement("span");
+            span.textContent = "Add Task";
+            add.append(addIcon, span);
 
             bodyContainer.append(img, h3, p, add);
         }
@@ -63,6 +67,12 @@ export function renderMainContent() {
                 taskDetails.classList.add("task-details");
                 const title = document.createElement("p");
                 title.textContent = toDo.title;
+                if (toDo.completed) {
+                    title.style.width = "20px";
+                    title.style.textDecoration = "2px red line-through";
+                    title.style.opacity = "0.6";
+
+                }
                 const description = document.createElement("p");
                 description.textContent = toDo.description;
                 const date = document.createElement("p");
@@ -76,11 +86,12 @@ export function renderMainContent() {
             const add = document.createElement("button");
             add.classList.add("add-task-main")
             add.dataset.action = "add-task";
-            add.textContent = "Add Task";
+            const span = document.createElement("span");
+            span.textContent = "Add Task";
             const addIcon = document.createElement("img");
-            addIcon.setAttribute("src", "");
+            addIcon.setAttribute("src", addTaskImage);
             addIcon.setAttribute("alt", "icon");
-            add.append(addIcon);
+            add.append(addIcon, span);
 
             bodyContainer.append(add);
         }
@@ -99,28 +110,33 @@ export function renderMainContent() {
         const add = document.createElement("button");
         add.classList.add("add-project-main")
         add.dataset.action = "add-project";
-        add.textContent = "Add Project";
         const addIcon = document.createElement("img");
-        addIcon.setAttribute("src", "");
+        addIcon.setAttribute("src", addTaskImage);
         addIcon.setAttribute("alt", "icon");
-        add.append(addIcon);
+        const span = document.createElement("span");
+        span.textContent = "Add Project";
+        add.append(addIcon, span);
         
         bodyContainer.append(add);
 
         const h3 = document.createElement("h3");
         const projects = getProjects();
-        h3.textContent = projects.length <= 1 ? `${projects.length} project` :  `${projects.length} projects`;
+        h3.textContent = projects.length <= 2 ? `${projects.length-1} project` :  `${projects.length-1} projects`;
         
         const projectsContainer = document.createElement("div");
         projectsContainer.classList.add("projects-container");
         for (let project of projects) {
+            if (project.title === "Inbox") {
+                continue;
+            }
             const item = document.createElement("button");
             item.dataset.id = project.id;
             const icon = document.createElement("img");
-            icon.setAttribute("src", "");
+            icon.setAttribute("src", hash);
             icon.setAttribute("alt", "icon");
-            item.append(icon);
-            item.textContent = project.title;
+            const span = document.createElement("span");
+            span.textContent = project.title;
+            item.append(icon, span);
             projectsContainer.append(item);
         }
 
@@ -146,20 +162,33 @@ export function renderMainContent() {
             checkBox.checked = toDo.completed;
             const task = document.createElement("button");
             task.dataset.id = toDo.id;
-            task.textContent = toDo.title;
-            taskContainer.append(checkBox, task);
+            const taskDetails = document.createElement("div");
+            taskDetails.classList.add("task-details");
 
+            const title = document.createElement("p");
+            title.textContent = toDo.title;
+    
+            if (toDo.completed) {
+                title.style.width = "20px";
+                title.style.textDecoration = "2px red line-through";
+                title.style.opacity = "0.6";
+
+            }
+            taskDetails.append(checkBox, title);
+            task.append(taskDetails);
+            taskContainer.append(checkBox, task);
             bodyContainer.append(taskContainer);
         }
 
         const add = document.createElement("button");
         add.classList.add("add-task-main")
         add.dataset.action = "add-task";
-        add.textContent = "Add Task";
         const addIcon = document.createElement("img");
-        addIcon.setAttribute("src", "");
+        addIcon.setAttribute("src", addTaskImage);
         addIcon.setAttribute("alt", "icon");
-        add.append(addIcon);
+        const span = document.createElement("span");
+        span.textContent = "Add Task";
+        add.append(addIcon, span);
 
         bodyContainer.append(add);
     }
