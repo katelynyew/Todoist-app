@@ -2,7 +2,7 @@
 
 > A feature-rich task management application for organizing your daily workflow
 
-[Live Demo](https://katelynyew.github.io/todoist-clone) | [View Code](https://github.com/katelynyew/todoist-clone)
+[Live Demo](https://katelynyew.github.io/Todoist-app/) | [View Code](https://github.com/katelynyew/Todoist-app)
 
 ![ToDoist Clone Preview](./screenshots/hero.png)
 
