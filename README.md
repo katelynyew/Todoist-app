@@ -4,7 +4,7 @@
 
 [Live Demo](https://katelynyew.github.io/Todoist-app/) | [View Code](https://github.com/katelynyew/Todoist-app)
 
-![ToDoist Clone Preview](./screenshots/hero.png)
+![ToDoist Clone Preview](./assets/images/sc_inbox.png)
 
 ---
 
@@ -40,13 +40,13 @@ A modern task management application inspired by Todoist, enabling users to crea
 ##  Screenshots
 
 ### Main Dashboard
-![Dashboard](./screenshots/dashboard.png)
+![Dashboard](./assets/images/sc_inbox.png)
 
 ### Project View
-![Project View](./screenshots/projects.png)
+![Project View](./assets/images/sc_projects.png)
 
 ### Add Task Modal
-![Add Task](./screenshots/add-task.png)
+![Add Task](./assets/images/sc_addtask.png)
 
 ---
 
