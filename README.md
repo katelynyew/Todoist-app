@@ -1,4 +1,4 @@
-#  ToDoist Clone
+#  ToDoist App
 
 > A feature-rich task management application for organizing your daily workflow
 
